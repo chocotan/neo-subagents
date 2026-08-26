@@ -1,0 +1,60 @@
+{
+  "name": "neo-subagents",
+  "version": "0.1.0",
+  "description": "Native child agents, adaptive workflows, profiles, goals, and todos for Pi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chocotan/neo-subagents.git"
+  },
+  "homepage": "https://github.com/chocotan/neo-subagents#readme",
+  "bugs": {
+    "url": "https://github.com/chocotan/neo-subagents/issues"
+  },
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "workflow",
+    "agent",
+    "subagent",
+    "profile",
+    "todo"
+  ],
+  "exports": {
+    ".": "./src/extension.ts",
+    "./domain": "./src/domain/types.ts",
+    "./runtime": "./src/runtime/native-runtime.ts",
+    "./workflow": "./src/workflows/engine.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test"
+  },
+  "pi": {
+    "extensions": [
+      "./src/extension.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-agent-core": "*",
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-coding-agent": ">=0.84.0",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
+  "dependencies": {
+    "yaml": "^2.8.3"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-agent-core": "0.84.2",
+    "@earendil-works/pi-ai": "0.84.2",
+    "@earendil-works/pi-coding-agent": "0.84.2",
+    "@earendil-works/pi-tui": "0.84.2",
+    "@types/node": "^24.0.0",
+    "typebox": "^1.1.38",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

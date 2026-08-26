@@ -1,0 +1,43 @@
+name: harmless-release
+version: 1
+description: Harmless release-shaped fixture
+risk: low
+inputs:
+  - name: project
+    required: true
+recommendedSkills:
+  - optional-missing-skill
+discoverScopes:
+  - .pi/skills
+nodes:
+  - id: fanout
+    kind: parallel
+    title: Parallel checks
+    branches: [review, test]
+    join: all
+  - id: review
+    kind: agent
+    title: Review fixture
+    prompt: Review {{project}} without changing files.
+  - id: test
+    kind: agent
+    title: Test fixture
+    prompt: Inspect harmless tests for {{project}}.
+  - id: release
+    kind: shell
+    title: Harmless approved release
+    dependsOn: [fanout]
+    command: node
+    args: ["-e", "console.log('fixture release')"]
+    risk: high
+    approval: true
+    metadata:
+      impact: Writes only fixture stdout
+      rollback: No external state is changed
+  - id: receipt
+    kind: receipt
+    title: Fixture receipt
+    dependsOn: [release]
+    url: https://example.invalid/fixture/{{project}}
+successCriteria:
+  - Harmless receipt exists

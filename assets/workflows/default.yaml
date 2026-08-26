@@ -1,0 +1,54 @@
+name: default
+version: 1
+description: Simple analyze, work, and test development workflow
+risk: medium
+inputs:
+  - name: task
+    required: true
+recommendedSkills: []
+discoverScopes:
+  - .pi/skills
+  - .agents/skills
+nodes:
+  - id: analyze
+    kind: agent
+    title: Analyze the task
+    agent: scout
+    prompt: |
+      Analyze this task and the current codebase. Return a compact implementation handoff with exact files, relevant symbols, constraints, risks, and open questions.
+
+      Task:
+      {{task}}
+  - id: work
+    kind: agent
+    title: Implement the task
+    agent: worker
+    dependsOn: [analyze]
+    prompt: |
+      Implement the task using the scout handoff below. Read the actual code before editing, preserve unrelated changes, and complete the smallest correct implementation.
+
+      Task:
+      {{task}}
+
+      Scout handoff:
+      {{nodes.analyze.output}}
+  - id: test
+    kind: agent
+    title: Test and finish the task
+    agent: worker
+    dependsOn: [work]
+    prompt: |
+      Validate the completed task. Inspect the actual changes, run the relevant tests or checks, fix any failures within scope, and report evidence and residual risks.
+
+      Task:
+      {{task}}
+
+      Analysis:
+      {{nodes.analyze.output}}
+
+      Implementation handoff:
+      {{nodes.work.output}}
+successCriteria:
+  - The requested task is implemented.
+  - Relevant tests or checks pass.
+  - Validation evidence and residual risks are reported.

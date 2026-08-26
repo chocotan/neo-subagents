@@ -1,0 +1,9 @@
+name: fullstack-fixture
+description: Harmless fullstack test profile
+focus: [testing, review]
+recommendedSkills: [optional-missing-skill]
+discoverScopes: [.pi/skills]
+recommendedAgents: [general]
+communicationStyle: concise
+memoryScope: fixture
+recommendedWorkflows: [harmless-release]
